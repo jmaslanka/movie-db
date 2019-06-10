@@ -1,0 +1,35 @@
+version: '3.6'
+services:
+  postgres:
+    image: postgres:11-alpine
+  django:
+    image: django
+    build:
+      context: .
+      dockerfile: ./docker/django/Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    command: python src/manage.py runserver 0.0.0.0:8000
+    ports:
+      - '8000:8000'
+    volumes:
+      - .:/code
+      - static:/static
+      - media:/media
+  bootstrap:
+    image: django
+    command: python src/manage.py bootstrap
+    env_file: .env
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 10
+        window: 20s
+volumes:
+  static:
+    driver: local
+  media:
+    driver: local
