@@ -26,11 +26,33 @@ STATIC_ROOT = env('STATIC_ROOT', default=(root - 2)('static'))
 MEDIA_URL = env('MEDIA_URL', default='/media/')
 MEDIA_ROOT = env('MEDIA_ROOT', default=(root - 2)('media'))
 
+OMDB_API_URL = 'http://www.omdbapi.com/'
+OMDB_API_KEY = env('OMDB_API_KEY', default='')
+
+
+# ---------- API Settings ----------
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAdminUser',
+    ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+    'ORDERING_PARAM': 'sort_by',
+}
+
 
 # ---------- Applications ----------
 
 LOCAL_APPS = [
     'project',
+    'movie',
 ]
 
 INSTALLED_APPS = [
@@ -42,6 +64,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'django_filters',
 ] + LOCAL_APPS
 
 # ---------- Middleware ----------
