@@ -17,23 +17,7 @@ class TopMoviesListView(ListAPIView):
     permission_classes = (AllowAny,)
     authentication_classes = []
 
-    def get_queryset(self):
-        try:
-            date_from = datetime.strptime(
-                self.request.query_params['from'],
-                '%d-%m-%Y',
-            ).date()
-            date_to = datetime.strptime(
-                self.request.query_params['to'],
-                '%d-%m-%Y',
-            ).date()
-        except (ValueError, KeyError):
-            error_msg = '`from` and `to` date required in format "DD-MM-YYY"'
-            return Response(
-                {'error': error_msg},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
+    def get_queryset(self, date_from, date_to):
         return Movie.objects.annotate(
             total_comments=Count(
                 'comments',
@@ -46,3 +30,25 @@ class TopMoviesListView(ListAPIView):
                 order_by=F('total_comments').desc(),
             ),
         ).order_by('rank')
+
+    def list(self, request, *args, **kwargs):
+        try:
+            date_from = datetime.strptime(
+                request.query_params['from'],
+                '%d-%m-%Y',
+            ).date()
+            date_to = datetime.strptime(
+                request.query_params['to'],
+                '%d-%m-%Y',
+            ).date()
+        except (ValueError, KeyError):
+            error_msg = '`from` and `to` date required in format "DD-MM-YYY"'
+            return Response(
+                {'error': error_msg},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        queryset = self.get_queryset(date_from, date_to)
+        serializer = self.get_serializer(queryset, many=True)
+
+        return Response(serializer.data)
