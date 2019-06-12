@@ -21,31 +21,8 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-STATIC_URL = env('STATIC_URL', default='/static/')
-STATIC_ROOT = env('STATIC_ROOT', default=(root - 2)('static'))
-MEDIA_URL = env('MEDIA_URL', default='/media/')
-MEDIA_ROOT = env('MEDIA_ROOT', default=(root - 2)('media'))
-
 OMDB_API_URL = 'http://www.omdbapi.com/'
 OMDB_API_KEY = env('OMDB_API_KEY', default='')
-
-
-# ---------- API Settings ----------
-
-
-REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAdminUser',
-    ),
-    'DEFAULT_FILTER_BACKENDS': (
-        'django_filters.rest_framework.DjangoFilterBackend',
-    ),
-    'ORDERING_PARAM': 'sort_by',
-}
 
 
 # ---------- Applications ----------
@@ -65,7 +42,44 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'django_filters',
+    'corsheaders',
 ] + LOCAL_APPS
+
+
+# ---------- Static Files ----------
+
+STATIC_URL = env('STATIC_URL', default='/static/')
+STATIC_ROOT = env('STATIC_ROOT', default=(root - 2)('static'))
+MEDIA_URL = env('MEDIA_URL', default='/media/')
+MEDIA_ROOT = env('MEDIA_ROOT', default=(root - 2)('media'))
+
+if not DEBUG:
+    INSTALLED_APPS += ['django_s3_storage']
+    DEFAULT_FILE_STORAGE = 'django_s3_storage.storage.S3Storage'
+    STATICFILES_STORAGE = 'django_s3_storage.storage.StaticS3Storage'
+    AWS_REGION = env('AWS_REGION')
+    AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+    AWS_S3_BUCKET_NAME_STATIC = env('AWS_S3_BUCKET_NAME_STATIC')
+    AWS_S3_BUCKET_AUTH_STATIC = False
+
+
+# ---------- API Settings ----------
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAdminUser',
+    ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+    'ORDERING_PARAM': 'sort_by',
+}
+
 
 # ---------- Middleware ----------
 

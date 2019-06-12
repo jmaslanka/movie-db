@@ -1,6 +1,9 @@
+django-cors-headers==2.5.2
 django-environ==0.4.5
 django-filter==2.1.0
+django-s3-storage==0.12.4
 Django>=2.2,<2.3
 djangorestframework==3.9.4
 psycopg2==2.8.2
 requests==2.22.0
+uwsgi==2.0.18

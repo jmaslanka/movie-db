@@ -3,12 +3,10 @@ setup:
     - plan: heroku-postgresql
 build:
   docker:
-    web: ./docker/django/Dockerfile
-  config:
-    REQUIREMENTS_FILENAME: heroku.yml
+    web: ./Dockerfile
 release:
   image: web
   command:
-    - python src/manage.py bootstrap
+    - python manage.py bootstrap
 run:
-  web: uwsgi --http 0:$PORT --wsgi-file ./src/project/wsgi.py --master --processes 4 --threads 2
+  web: uwsgi --http 0:$PORT --wsgi-file ./project/wsgi.py --master --processes 4 --threads 2
