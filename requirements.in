@@ -1,0 +1,12 @@
+Django==2.2.4
+django-cors-headers==2.5.2
+django-environ==0.4.5
+django-filter==2.1.0
+django-s3-storage==0.12.4
+djangorestframework==3.10.2
+drf-yasg==1.16.1
+packaging==19.1           # via drf-yasg
+pip-tools==4.0.0
+psycopg2==2.8.2
+requests==2.22.0
+uwsgi==2.0.18

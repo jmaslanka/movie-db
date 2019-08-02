@@ -1,5 +1,7 @@
 import environ
 
+from django.urls import reverse_lazy
+
 
 # ---------- Basic settings ----------
 
@@ -24,6 +26,8 @@ USE_TZ = True
 OMDB_API_URL = 'http://www.omdbapi.com/'
 OMDB_API_KEY = env('OMDB_API_KEY', default='')
 
+LOGIN_URL = reverse_lazy('admin:login')
+
 
 # ---------- Applications ----------
 
@@ -43,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'corsheaders',
+    'drf_yasg',
 ] + LOCAL_APPS
 
 

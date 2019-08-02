@@ -1,4 +1,5 @@
 from json.decoder import JSONDecodeError
+from typing import Union
 import requests
 
 from django.conf import settings
@@ -6,7 +7,11 @@ from django.conf import settings
 from .serializers import MovieSerializer
 
 
-def fetch_movie(title):
+def fetch_movie(title: str) -> Union[None, dict]:
+    """
+    Given a movie title returns results (if any) from OMDB API.
+    """
+
     url = '{base_url}?apikey={api_key}&type=movie&t={title}'.format(
         base_url=settings.OMDB_API_URL,
         api_key=settings.OMDB_API_KEY,

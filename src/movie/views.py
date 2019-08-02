@@ -17,7 +17,7 @@ class TopMoviesListView(ListAPIView):
     permission_classes = (AllowAny,)
     authentication_classes = []
 
-    def get_queryset(self, date_from, date_to):
+    def get_queryset(self, date_from: datetime.date, date_to: datetime.date):
         return Movie.objects.annotate(
             total_comments=Count(
                 'comments',
