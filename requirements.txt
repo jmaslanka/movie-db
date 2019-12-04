@@ -4,6 +4,7 @@
 #
 #    pip-compile --output-file=requirements.txt requirements.in
 #
+attrs==19.3.0             # via packaging
 boto3==1.9.199            # via django-s3-storage
 botocore==1.12.199        # via boto3, s3transfer
 certifi==2019.6.16        # via requests
@@ -15,8 +16,8 @@ django-cors-headers==2.5.2
 django-environ==0.4.5
 django-filter==2.1.0
 django-s3-storage==0.12.4
-django==2.2.4
-djangorestframework==3.9.4
+django==2.2.8
+djangorestframework==3.10.2
 docutils==0.14            # via botocore
 drf-yasg==1.16.1
 idna==2.8                 # via requests
@@ -25,16 +26,16 @@ itypes==1.1.0             # via coreapi
 jinja2==2.10.1            # via coreschema
 jmespath==0.9.4           # via boto3, botocore
 markupsafe==1.1.1         # via jinja2
-packaging==19.1           # via drf-yasg
+packaging==19.1
 pip-tools==4.0.0
 psycopg2==2.8.2
+pyparsing==2.4.5          # via packaging
 python-dateutil==2.8.0    # via botocore
 pytz==2019.2              # via django
 requests==2.22.0
-ruamel.yaml.clib==0.1.0   # via ruamel.yaml
 ruamel.yaml==0.15.100     # via drf-yasg
 s3transfer==0.2.1         # via boto3
-six==1.12.0               # via drf-yasg, pip-tools, python-dateutil
+six==1.12.0               # via drf-yasg, packaging, pip-tools, python-dateutil
 sqlparse==0.3.0           # via django
 uritemplate==3.0.0        # via coreapi, drf-yasg
 urllib3==1.25.3           # via botocore, requests
